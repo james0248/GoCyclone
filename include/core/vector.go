@@ -1,4 +1,4 @@
-package include
+package core
 
 import (
 	"math"
@@ -66,7 +66,7 @@ func (v Vector) MultiplyScalar(value float64) *Vector {
 }
 
 // AddVector returns a pointer to a vector added the given vector
-func (v Vector) AddVector(u Vector) *Vector {
+func (v Vector) AddVector(u *Vector) *Vector {
 	return &Vector{
 		x: v.x + u.x,
 		y: v.y + u.y,
@@ -75,7 +75,7 @@ func (v Vector) AddVector(u Vector) *Vector {
 }
 
 // SubtractVector returns a pointer to a vector subtracted the given vector
-func (v Vector) SubtractVector(u Vector) *Vector {
+func (v Vector) SubtractVector(u *Vector) *Vector {
 	return &Vector{
 		x: v.x - u.x,
 		y: v.y - u.y,
@@ -84,10 +84,54 @@ func (v Vector) SubtractVector(u Vector) *Vector {
 }
 
 // AddScaledVector returns a pointer to a vector added a given vector multiplied by the given value
-func (v Vector) AddScaledVector(u Vector, value float64) *Vector {
+func (v Vector) AddScaledVector(u *Vector, value float64) *Vector {
 	return &Vector{
 		x: v.x + u.x*value,
 		y: v.y + u.y*value,
 		z: v.z + u.z*value,
 	}
+}
+
+// ComponentProduct returns a vector multiplied each of the given vector's entry
+func (v Vector) ComponentProduct(u *Vector) *Vector {
+	return &Vector{
+		x: v.x * u.x,
+		y: v.y * u.y,
+		z: v.z * u.z,
+	}
+}
+
+// ComponentProductUpdate updates the vector by multiplying the given vector's entry
+func (v *Vector) ComponentProductUpdate(u *Vector) {
+	v.x *= u.x
+	v.y *= u.y
+	v.z *= u.z
+}
+
+// InnerProduct returns the inner product value of two vectors
+func (v Vector) InnerProduct(u *Vector) float64 {
+	return v.x*u.x + v.y*u.y + v.z*u.z
+}
+
+// CrossProduct returns a vector as a result of the cross product of two vectors.
+// The calculating order is v.CrossProduct(u) = v X u
+func (v Vector) CrossProduct(u *Vector) *Vector {
+	return &Vector{
+		x: v.y*u.z - v.z*u.y,
+		y: v.z*u.x - v.x*u.z,
+		z: v.x*u.y - v.y*u.x,
+	}
+}
+
+// MakeOrthonormalBasis returns a orthonomal basisbased on the given vector
+func MakeOrthonormalBasis(v, u, w *Vector) (*Vector, *Vector, *Vector, error) {
+	// TODO
+	return &Vector{}, &Vector{}, &Vector{}, nil
+}
+
+// Clear makes a vector 0
+func (v *Vector) Clear() {
+	v.x = 0
+	v.y = 0
+	v.z = 0
 }
